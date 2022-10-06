@@ -44,7 +44,6 @@ void counting_sort(int *array, size_t size)
 	print_array(counting_array, max + 1);
 	for (i = 0; i < size; i++)
 	{
-		printf("final array: %d , counting array: %d, array[i] is: %d \n", final_array[counting_array[array[i]] - 1],counting_array[array[i]] ,array[i]);
 		final_array[counting_array[array[i]] - 1] = array[i];
 		counting_array[array[i]]--;
 	}
