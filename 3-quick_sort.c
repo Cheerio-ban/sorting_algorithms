@@ -45,7 +45,6 @@ int prtn(int *arr, int lo, int hi, int size)
 
 		}
 	}
-
 	return (idx);
 }
 
