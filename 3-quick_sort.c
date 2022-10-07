@@ -34,7 +34,7 @@ int prtn(int *arr, int lo, int hi, int size)
 	int idx = lo - 1;
 	int i;
 
-	for (i = lo; i <= hi; i++)
+	for (i = lo; i <= hi - 1; i++)
 	{
 		if (arr[i] < pvt)
 		{
@@ -42,12 +42,16 @@ int prtn(int *arr, int lo, int hi, int size)
 			tmp = arr[i];
 			arr[i] = arr[idx];
 			arr[idx] = tmp;
+			if (idx != i && idx != size - 4)
+				print_array(arr, size);
+
 		}
 	}
 
 	arr[hi] = arr[idx + 1];
 	arr[idx + 1] = pvt;
-	print_array(arr, size);
+	if (idx != i && idx != size - 2)
+		print_array(arr, size);
 	return (idx + 1);
 }
 
