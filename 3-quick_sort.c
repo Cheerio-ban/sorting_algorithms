@@ -13,6 +13,8 @@ int prtn(int *arr, int lo, int hi);
 
 void quick_sort(int *arr, size_t size)
 {
+	if (!arr)
+		return;
 	qs(arr, 0, size - 1);
 }
 
@@ -33,7 +35,7 @@ int prtn(int *arr, int lo, int hi)
 
 	for (i = lo; i <= hi - 1; i++)
 	{
-		if (arr[i] <= pvt)
+		if (arr[i] < pvt)
 		{
 
 			idx++;
@@ -44,12 +46,11 @@ int prtn(int *arr, int lo, int hi)
 		}
 	}
 
-	idx++;
-	arr[hi] = arr[idx];
-	arr[idx] = pvt;
+	arr[hi] = arr[idx + 1];
+	arr[idx + 1] = pvt;
 	print_array(arr, hi);
 
-	return (idx);
+	return (idx + 1);
 }
 
 
