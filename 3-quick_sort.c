@@ -1,8 +1,8 @@
 #include "sort.h"
 #include <stddef.h>
 
-void qs(int *arr, int lo, int hi);
-int prtn(int *arr, int lo, int hi);
+void qs(int *arr, int lo, int hi, int size);
+int prtn(int *arr, int lo, int hi, int size);
 
 /**
  * quick_sort - sort an array using quick sort algorithm
@@ -15,7 +15,7 @@ void quick_sort(int *arr, size_t size)
 {
 	if (!arr)
 		return;
-	qs(arr, 0, size - 1);
+	qs(arr, 0, size - 1, size);
 }
 
 
@@ -24,32 +24,30 @@ void quick_sort(int *arr, size_t size)
  * @arr: array to be partition
  * @lo: the lower bond
  * @hi: the upper bond
+ * @size: length of the array
  * Return: index of the pivot
  */
 
-int prtn(int *arr, int lo, int hi)
+int prtn(int *arr, int lo, int hi, int size)
 {
 	int pvt = arr[hi], tmp;
 	int idx = lo - 1;
 	int i;
 
-	for (i = lo; i <= hi - 1; i++)
+	for (i = lo; i <= hi; i++)
 	{
 		if (arr[i] < pvt)
 		{
-
 			idx++;
 			tmp = arr[i];
 			arr[i] = arr[idx];
 			arr[idx] = tmp;
-			print_array(arr, hi);
 		}
 	}
 
 	arr[hi] = arr[idx + 1];
 	arr[idx + 1] = pvt;
-	print_array(arr, hi);
-
+	print_array(arr, size);
 	return (idx + 1);
 }
 
@@ -59,17 +57,18 @@ int prtn(int *arr, int lo, int hi)
  * @arr: array to be sorted
  * @lo: the lower bond
  * @hi: the upper bond
+ * @size: length of the arr
  * Return: Nothing
  */
-void qs(int *arr, int lo, int hi)
+void qs(int *arr, int lo, int hi, int size)
 {
 	int pidx;
 
 	if (lo >= hi)
 		return;
 
-	pidx = prtn(arr, lo, hi);
+	pidx = prtn(arr, lo, hi, size);
 
-	qs(arr, lo, pidx - 1);
-	qs(arr, pidx + 1, hi);
+	qs(arr, lo, pidx - 1, size);
+	qs(arr, pidx + 1, hi, size);
 }
