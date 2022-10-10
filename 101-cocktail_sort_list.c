@@ -53,7 +53,7 @@ int compare(listint_t **list, listint_t *curr, listint_t *next, int *swap)
 	return (0);
 }
 
-/*
+/**
  * cocktail_sort_list - sorts a doubly linkedlist using the cocktail
  * shaker sort algorithm
  * @list: head of list to be sorted
