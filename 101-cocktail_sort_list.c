@@ -1,92 +1,91 @@
 #include "sort.h"
+#include <stdio.h>
+
+/**
+ * swap_node - swaps two nodes
+ * @curr: one of the nodes to be swap
+ * @next: one of the nodes to be swap
+ * Return: Nothing
+ */
+
+void swap_node(listint_t *curr, listint_t *next)
+{
+	listint_t *pcurr, *nnext;
+
+	pcurr  = curr->prev;
+	nnext = next->next;
+
+	curr->next = nnext;
+	if (pcurr)
+		curr->prev->next = next;
+	curr->prev = next;
+
+	if (nnext)
+		next->next->prev = curr;
+
+	next->next = curr;
+	next->prev = pcurr;
+
+}
+
+
+/**
+ * compare - compare the value of two nodes
+ * @list: head of the doubly linkedlist
+ * @curr: one of the nodes to be swap
+ * @next: one of the nodes to be swap
+ * @swap: flag to know if nodes were swap
+ * Return: 1 if @curr node value is greater @next node value or 0 if not
+ */
+
+int compare(listint_t **list, listint_t *curr, listint_t *next, int *swap)
+{
+	if (curr && curr->n > next->n)
+	{
+		*swap = 1;
+		swap_node(curr, next);
+		if (curr == *list)
+			*list = curr->prev;
+		print_list(*list);
+		return (1);
+	}
+
+	return (0);
+}
 
 /*
- * cocktail_sort_list - sorts a doubly linkedlist using the cocktail shaker sort algorithm
+ * cocktail_sort_list - sorts a doubly linkedlist using the cocktail
+ * shaker sort algorithm
  * @list: head of list to be sorted
  * Return: Nothing
  */
 
 void cocktail_sort_list(listint_t **list)
 {
-	listint_t *h;
+	listint_t *j, *k = NULL, *curr, *next;
 	int swap = 1;
 
 	if (!list || !(*list))
 		return;
-
-	h = *list;
-
-	while(swap)
+	while (swap)
 	{
-		listint_t *j = h, *k = NULL;
-
 		swap = 0;
-		while(j && j->next)
+		j = *list;
+		while (j && j->next)
 		{
-			listint_t *curr, *next, *prev;
-			
-			curr = j;
-			next = j->next;
-			prev = j->prev;
-
-			if (prev && prev->n > curr->n)
-			{
-				swap = 1;
-				curr->next = prev;
-				curr->prev = prev->prev;
-
-				if (prev->prev)
-					prev->prev->next = curr;
-				prev->next = next;
-				prev->prev = curr;
-
-				if (next)
-					next->prev = prev;
-
-				if (prev == *list)
-					*list = prev->prev;
-				print_list(*list);
-				j = prev->next;
-			}
-
-			else
+			curr = j, next = j->next;
+			if (!compare(list, curr, next, &swap))
 				j = j->next;
 		}
-
 		if (!swap)
 			break;
-
 		swap = 0;
 		k = j;
-		while (k && k->prev && k->prev && k->prev && k != *list)
+		while (k && k->prev && k->prev->prev)
 		{
-			listint_t *curr, *prev, *next;
-			curr = k;
-			prev = k->prev;
-			next = k->next;
-
-			if (prev && prev->n > curr->n)
-			{
-				swap = 1;
-
-				curr->prev = prev->prev;
-				curr->next = prev;
-
-				if (prev->prev)
-					prev->prev->next = curr;
-
-				prev->next = next;
-				prev->prev = curr;
-
-				if (next)
-					next->prev = prev;
-
-				if (prev == *list)
-					*list = prev->prev;
-				print_list(*list);
-			}
-
-			k = k->prev;
+			curr = k->prev->prev, next = k->prev;
+			if (!compare(list, curr, next, &swap))
+				k = k->prev;
 		}
 	}
 }
